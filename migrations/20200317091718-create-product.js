@@ -4,8 +4,9 @@ module.exports = {
     return queryInterface.createTable('products', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER
       },
       name: {
         type: Sequelize.STRING
@@ -27,7 +28,7 @@ module.exports = {
         values: ['Pending', 'Booked', 'Available', 'Canceled']
       },
       location_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -37,7 +38,7 @@ module.exports = {
         }
       },
       user_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {

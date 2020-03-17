@@ -4,14 +4,15 @@ module.exports = {
     return queryInterface.createTable('images', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER
       },
       link: {
         type: Sequelize.STRING
       },
       product_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
