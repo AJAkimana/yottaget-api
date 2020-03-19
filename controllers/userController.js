@@ -18,12 +18,8 @@ export const userSignin = async (req, res, next) => {
 export const userSignUp = async (req, res, next) => {
   passport.authenticate('local.signup', (error, user) => {
     if (error) return serverResponse(res, 401, error.message);
-    return serverResponse(
-      res,
-      200,
-      `Thank you, ${user.names}, for register`,
-      user
-    );
+    const errorMsg = `Thank you, ${user.names}, for registering`;
+    return serverResponse(res, 200, errorMsg, user);
   })(req, req, next);
 };
 export const logoutUser = (req, res) => {

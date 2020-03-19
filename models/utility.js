@@ -5,7 +5,15 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING
     },
-    {}
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ['name', 'location_id']
+        }
+      ],
+      underscored: true
+    }
   );
   Utility.associate = function(models) {
     // associations can be defined here

@@ -1,4 +1,4 @@
-import { serverResponse, QueryHelper } from '../helpers';
+import { serverResponse, msgs } from '../helpers';
 
 export const handleErrors = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
@@ -24,7 +24,7 @@ export const monitorDevActions = (req, res, next) => {
 };
 
 export const route404 = (req, res) => {
-  return serverResponse(res, 404, 'Sorry you have lost');
+  return serverResponse(res, 404, msgs.ROUTE_NOT_FOUND);
 };
 export const catchErrors = fn => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);

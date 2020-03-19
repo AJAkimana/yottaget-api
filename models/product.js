@@ -9,7 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       status: DataTypes.STRING
     },
-    {}
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ['name', 'location_id', 'user_id']
+        }
+      ],
+      underscored: true
+    }
   );
   Product.associate = function(models) {
     // associations can be defined here

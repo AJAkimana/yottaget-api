@@ -36,6 +36,8 @@ export const localPassport = passport => {
             if (!unHashPassword(password, user.password))
               return done({ message: 'Invalid password' });
             user = user.toJSON();
+            if (user.a_level > 2)
+              return done({ message: 'You are not allowed to log in' });
             return done(null, user);
           })
           .catch(error => done(error));
@@ -59,10 +61,14 @@ export const localPassport = passport => {
         const username = req.body.username.trim();
         const names = req.body.names.trim();
         const a_level = req.body.a_level;
-        if (a_level !== 2)
+        if (a_level !== 2) {
           return done({ message: 'You are not allowed to create account' });
+        }
+        const userPhoneParams = [{ username }, { phone }];
+        const withEmailParams = [...userPhoneParams, { email }];
+        const params = email ? withEmailParams : userPhoneParams;
         User.findOne({
-          where: { [Op.or]: [{ email }, { username }, { phone }] },
+          where: { [Op.or]: params },
           logging: false
         })
           .then(user => {

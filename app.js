@@ -10,8 +10,8 @@ import { capture } from 'express-device';
 import { sequelize } from './models';
 import { localPassport } from './config/passport';
 import { handleErrors } from './middlewares';
-import { routes } from './routes';
 import { ConstantHelper } from './helpers';
+import routes from './routes';
 
 dotenv.config();
 localPassport(passport);
@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 /**
  * App routes
  */
-routes(app);
+app.use(routes);
 /**
  * Catch unexpected errors
  */

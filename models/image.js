@@ -5,7 +5,15 @@ module.exports = (sequelize, DataTypes) => {
     {
       link: DataTypes.STRING
     },
-    {}
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ['link', 'product_id']
+        }
+      ],
+      underscored: true
+    }
   );
   Image.associate = function(models) {
     // associations can be defined here
