@@ -13,8 +13,8 @@ export class ValidatorHelper extends ConstantHelper {
       case 'user':
         validateKeys = Joi.object().keys(this.getAuthKeys(action));
         break;
-      case 'product':
-        validateKeys = Joi.object().keys(this.getProductKeys(action));
+      case 'house':
+        validateKeys = Joi.object().keys(this.getHouseKeys(action));
         break;
       case 'location':
         validateKeys = Joi.object().keys(this.getLocationKeys(action));

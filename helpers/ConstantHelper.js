@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { User, Product, Location, Utility } from '../models';
+import { User, House, Location, Utility, Image } from '../models';
 
 export const msgs = {
   NOT_AUTH: 'Ooh, the system does not know you',
@@ -33,20 +33,59 @@ export class ConstantHelper {
     };
     return action === 'login' ? login : signUp;
   }
-  getProductKeys(actionType) {
-    const newProduct = {
+  getHouseKeys(actionType) {
+    const newHouse = {
       name: Joi.string().required(),
       price: Joi.number().required(),
       description: Joi.string().required(),
-      location_id: Joi.number().required(),
-      user_id: Joi.number().required()
+      locationId: Joi.number().required(),
+      userId: Joi.number().required()
     };
-    if (actionType === 'new') return newProduct;
+    if (actionType === 'new') return newHouse;
   }
   getLocationKeys(actionType) {
     const newLocation = {
       name: Joi.string().required()
     };
     if (actionType === 'new') return newLocation;
+  }
+  locationIncludes() {
+    return [
+      {
+        model: Utility,
+        as: 'utilities',
+        include: [{ model: Location, as: 'location', attributes: ['name'] }],
+        attributes: ['name']
+      },
+      {
+        model: House,
+        as: 'houses',
+        attributes: ['name', 'price', 'description']
+      }
+    ];
+  }
+  houseIncludes() {
+    return [
+      {
+        model: Utility,
+        as: 'utilities',
+        attributes: ['name']
+      },
+      {
+        model: Location,
+        as: 'location',
+        attributes: ['name']
+      },
+      {
+        model: User,
+        as: 'landlord',
+        attributes: ['names']
+      },
+      {
+        model: Image,
+        as: 'images',
+        attributes: ['link']
+      }
+    ];
   }
 }

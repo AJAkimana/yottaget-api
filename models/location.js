@@ -11,19 +11,18 @@ module.exports = (sequelize, DataTypes) => {
           unique: true,
           fields: ['name']
         }
-      ],
-      underscored: true
+      ]
     }
   );
   Location.associate = function(models) {
     // associations can be defined here
     Location.hasMany(models.Utility, {
-      foreignKey: 'utility_id',
-      as: 'utilities'
+      as: 'utilities',
+      foreignKey: 'locationId'
     });
-    Location.hasMany(models.Product, {
-      foreignKey: 'product_id',
-      as: 'products'
+    Location.hasMany(models.House, {
+      as: 'houses',
+      foreignKey: 'locationId'
     });
   };
   return Location;

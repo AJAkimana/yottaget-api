@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable(
-      'products',
+      'houses',
       {
         id: {
           allowNull: false,
@@ -29,31 +29,31 @@ module.exports = {
           allowNull: false,
           values: ['Pending', 'Booked', 'Available', 'Canceled']
         },
-        location_id: {
+        locationId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {
             model: 'locations',
             key: 'id',
-            as: 'location_id'
+            as: 'locationId'
           }
         },
-        user_id: {
+        userId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {
             model: 'users',
             key: 'id',
-            as: 'user_id'
+            as: 'userId'
           }
         },
-        created_at: {
+        createdAt: {
           allowNull: false,
           type: Sequelize.DATE
         },
-        updated_at: {
+        updatedAt: {
           allowNull: false,
           type: Sequelize.DATE
         }
@@ -62,13 +62,13 @@ module.exports = {
         uniqueKeys: {
           unique_tag: {
             customIndex: true,
-            fields: ['name', 'location_id', 'user_id']
+            fields: ['name', 'locationId', 'userId']
           }
         }
       }
     );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('products');
+    return queryInterface.dropTable('houses');
   }
 };

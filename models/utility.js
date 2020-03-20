@@ -9,20 +9,20 @@ module.exports = (sequelize, DataTypes) => {
       indexes: [
         {
           unique: true,
-          fields: ['name', 'location_id']
+          fields: ['name', 'locationId']
         }
-      ],
-      underscored: true
+      ]
     }
   );
   Utility.associate = function(models) {
     // associations can be defined here
     Utility.belongsTo(models.Location, {
       as: 'location',
-      foreignKey: 'location_id'
+      foreignKey: 'id'
     });
-    Utility.hasMany(models.Product, {
-      as: 'products'
+    Utility.hasMany(models.House, {
+      as: 'houses',
+      foreignKey: 'id'
     });
   };
   return Utility;

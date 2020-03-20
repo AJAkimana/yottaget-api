@@ -16,7 +16,7 @@ export class QueryHelper {
       offset,
       limit,
       where: whereCondition,
-      logging: false,
+      logging: true,
       include
     });
   }

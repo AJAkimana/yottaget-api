@@ -9,17 +9,16 @@ module.exports = (sequelize, DataTypes) => {
       indexes: [
         {
           unique: true,
-          fields: ['link', 'product_id']
+          fields: ['link', 'house_id']
         }
-      ],
-      underscored: true
+      ]
     }
   );
   Image.associate = function(models) {
     // associations can be defined here
-    Image.belongsTo(models.Product, {
-      as: 'product',
-      foreignKey: 'product_id'
+    Image.belongsTo(models.House, {
+      as: 'house',
+      foreignKey: 'houseId'
     });
   };
   return Image;

@@ -13,21 +13,21 @@ module.exports = {
         name: {
           type: Sequelize.STRING
         },
-        location_id: {
+        locationId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {
             model: 'locations',
             key: 'id',
-            as: 'location_id'
+            as: 'locationId'
           }
         },
-        created_at: {
+        createdAt: {
           allowNull: false,
           type: Sequelize.DATE
         },
-        updated_at: {
+        updatedAt: {
           allowNull: false,
           type: Sequelize.DATE
         }
@@ -36,7 +36,7 @@ module.exports = {
         uniqueKeys: {
           unique_tag: {
             customIndex: true,
-            fields: ['name', 'location_id']
+            fields: ['name', 'locationId']
           }
         }
       }

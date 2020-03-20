@@ -17,14 +17,14 @@ module.exports = (sequelize, DataTypes) => {
           unique: true,
           fields: ['username', 'phone']
         }
-      ],
-      underscored: true
+      ]
     }
   );
   User.associate = function(models) {
     // associations can be defined here
-    User.hasMany(models.Product, {
-      as: 'products'
+    User.hasMany(models.House, {
+      as: 'houses',
+      foreignKey: 'id'
     });
   };
   return User;

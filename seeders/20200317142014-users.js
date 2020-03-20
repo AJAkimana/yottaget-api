@@ -13,8 +13,8 @@ module.exports = {
           phone: '0783543016',
           password: hashPassword('MyPassword'),
           a_level: 1,
-          created_at: new Date(),
-          updated_at: new Date()
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           names: 'Landload user',
@@ -22,8 +22,8 @@ module.exports = {
           phone: '0728533016',
           password: hashPassword('MyPassword'),
           a_level: 2,
-          created_at: new Date(),
-          updated_at: new Date()
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           names: 'Tenant user',
@@ -31,8 +31,8 @@ module.exports = {
           phone: '0738533018',
           password: hashPassword('MyPassword'),
           a_level: 3,
-          created_at: new Date(),
-          updated_at: new Date()
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ],
       {}
