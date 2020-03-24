@@ -10,6 +10,9 @@ export const msgs = {
   NOT_FOUND: item => `${item} is not found`,
   ROUTE_NOT_FOUND: 'Oops, you seem lost'
 };
+export const localConstants = {
+  TOTAL_IMAGES: 3
+};
 export class ConstantHelper {
   constructor() {
     this.hour = 3600000;
@@ -41,7 +44,24 @@ export class ConstantHelper {
       locationId: Joi.number().required(),
       userId: Joi.number().required()
     };
+    const { userId, ...withNoUserId } = newHouse;
+    const generalUpdate = {
+      status: Joi.string()
+        .valid('Pending', 'Booked', 'Available', 'Canceled')
+        .required(),
+      ...withNoUserId
+    };
     if (actionType === 'new') return newHouse;
+    if (actionType === 'genUpdate') return generalUpdate;
+  }
+  getImagesKeys() {
+    const images = {
+      images: Joi.array()
+        .items(Joi.string().required())
+        .required(),
+      houseId: Joi.number()
+    };
+    return images;
   }
   getLocationKeys(actionType) {
     const newLocation = {

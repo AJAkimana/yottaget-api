@@ -19,6 +19,9 @@ export class ValidatorHelper extends ConstantHelper {
       case 'location':
         validateKeys = Joi.object().keys(this.getLocationKeys(action));
         break;
+      case 'images':
+        validateKeys = Joi.object().keys(this.getImagesKeys());
+        break;
       default:
         break;
     }

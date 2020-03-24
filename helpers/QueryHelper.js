@@ -10,18 +10,28 @@ export class QueryHelper {
       attributes
     });
   }
-  async findAll(whereCondition, include, offset = 0, limit = 20) {
+  async findAll(
+    whereCondition,
+    include = null,
+    attributes,
+    offset = 0,
+    limit = 20
+  ) {
     return this.model.findAll({
       order: [['createdAt', 'DESC']],
       offset,
       limit,
       where: whereCondition,
+      attributes,
       logging: true,
       include
     });
   }
   async create(data) {
     return this.model.create(data, { logging: false });
+  }
+  async bulkCreate(data) {
+    return this.model.bulkCreate(data, { logging: false });
   }
   async update(data, whereCondition = {}) {
     return this.model.update(data, { where: whereCondition, logging: false });
@@ -34,5 +44,8 @@ export class QueryHelper {
   }
   async findOrCreate(whereCondition, defaults) {
     return this.model.findOrCreate({ where: whereCondition, defaults });
+  }
+  async count(whereCondition) {
+    return this.model.count({ where: whereCondition });
   }
 }
