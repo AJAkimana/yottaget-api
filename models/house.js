@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'House',
     {
       name: DataTypes.STRING,
+      slug: DataTypes.STRING,
       price: DataTypes.INTEGER,
       description: DataTypes.STRING,
       type: DataTypes.STRING,
@@ -18,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'locationId'
     });
     House.hasMany(models.Utility, {
-      foreignKey: 'id',
       as: 'utilities'
     });
     House.hasMany(models.Image, {

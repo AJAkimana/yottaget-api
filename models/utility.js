@@ -21,8 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id'
     });
     Utility.hasMany(models.House, {
-      as: 'houses',
-      foreignKey: 'id'
+      as: 'houses'
     });
   };
   return Utility;

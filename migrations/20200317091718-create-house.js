@@ -13,6 +13,10 @@ module.exports = {
         name: {
           type: Sequelize.STRING
         },
+        slug: {
+          allowNull: false,
+          type: Sequelize.STRING
+        },
         price: {
           type: Sequelize.INTEGER
         },
