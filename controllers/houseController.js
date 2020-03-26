@@ -5,10 +5,11 @@ import {
   ConstantHelper,
   generateSlug
 } from '../helpers';
-import { House, Image } from '../models';
+import { House, Image, Utility, HouseUtility } from '../models';
 
 const houseDb = new QueryHelper(House);
 const imageDb = new QueryHelper(Image);
+const hUtilityDb = new QueryHelper(HouseUtility);
 const constHelper = new ConstantHelper();
 export const createHouse = async (req, res) => {
   req.body.slug = generateSlug(req.body.name);
@@ -42,5 +43,12 @@ export const addHouseImages = async (req, res) => {
   let { theImages: images } = req.body;
   await imageDb.bulkCreate(images);
   const msg = `${images.length} images added`;
+  return serverResponse(res, 201, msg);
+};
+
+export const addHouseUtilities = async (req, res) => {
+  let { houseUtilities } = req.body;
+  await hUtilityDb.bulkCreate(houseUtilities);
+  const msg = `${houseUtilities.length} utilities added`;
   return serverResponse(res, 201, msg);
 };

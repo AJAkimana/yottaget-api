@@ -20,8 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'location',
       foreignKey: 'id'
     });
-    Utility.hasMany(models.House, {
-      as: 'houses'
+    Utility.belongsToMany(models.House, {
+      as: 'houses',
+      through: 'house_utilities'
     });
   };
   return Utility;

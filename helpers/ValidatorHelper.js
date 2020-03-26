@@ -22,6 +22,9 @@ export class ValidatorHelper extends ConstantHelper {
       case 'images':
         validateKeys = Joi.object().keys(this.getImagesKeys());
         break;
+      case 'utilities':
+        validateKeys = Joi.object().keys(this.getUtilitiesKeys(action));
+        break;
       default:
         break;
     }

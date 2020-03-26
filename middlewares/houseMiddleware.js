@@ -6,7 +6,7 @@ import {
   serverResponse,
   localConstants
 } from '../helpers';
-import { House, Image } from '../models';
+import { House, Image, Utility } from '../models';
 
 export const isHouseValid = (req, res, next) => {
   req.body.userId = req.user.a_level === 2 ? req.user.id : req.body.userId;
@@ -54,6 +54,27 @@ export const areImagesValid = async (req, res, next) => {
   if (remaingImages > 0) {
     const msg = `Too many images. Please delete ${remaingImages}`;
     return serverResponse(res, 400, msg);
+  }
+  return next();
+};
+export const areUtilitiesValid = async (req, res, next) => {
+  const validator = new ValidatorHelper(req.body);
+  const utilityDb = new QueryHelper(Utility);
+  const { houseId } = req.params;
+  const { utilities } = req.body;
+  const errorBody = validator.validateInput('utilities', 'forHouse');
+  if (errorBody.error) return joiValidatorMsg(res, errorBody);
+  req.body.houseUtilities = [];
+  await Promise.all(
+    utilities.map(async util => {
+      const utility = await utilityDb.findOne({ id: util });
+      if (utility) {
+        req.body.houseUtilities.push({ houseId, utilityId: util });
+      }
+    })
+  );
+  if (!req.body.houseUtilities.length) {
+    return serverResponse(res, 400, 'No utilities to save');
   }
   return next();
 };

@@ -63,6 +63,19 @@ export class ConstantHelper {
     };
     return images;
   }
+  getUtilitiesKeys(actionType) {
+    const utilities = {
+      utilities: Joi.array().items(Joi.number().required())
+    };
+    const newUtilities = {
+      utilities: Joi.array().items({
+        name: Joi.string().required(),
+        locationId: Joi.number().required()
+      })
+    };
+    if (actionType === 'forHouse') return utilities;
+    if (actionType === 'new') return newUtilities;
+  }
   getLocationKeys(actionType) {
     const newLocation = {
       name: Joi.string().required()
@@ -89,6 +102,7 @@ export class ConstantHelper {
       {
         model: Utility,
         as: 'utilities',
+        through: { attributes: [] },
         attributes: ['name']
       },
       {

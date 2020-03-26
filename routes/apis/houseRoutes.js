@@ -4,7 +4,8 @@ import {
   getHouses,
   getOneHouse,
   updateHouse,
-  addHouseImages
+  addHouseImages,
+  addHouseUtilities
 } from '../../controllers/houseController';
 import {
   catchErrors,
@@ -12,7 +13,8 @@ import {
   isHouseValid,
   doesHouseExist,
   isHouseUpdateValid,
-  areImagesValid
+  areImagesValid,
+  areUtilitiesValid
 } from '../../middlewares';
 
 const houseRoutes = Router();
@@ -35,7 +37,14 @@ houseRoutes.patch(
   '/:houseId/add-images',
   isOwnOrAdmin,
   catchErrors(doesHouseExist),
-  areImagesValid,
+  catchErrors(areImagesValid),
   catchErrors(addHouseImages)
+);
+houseRoutes.patch(
+  '/:houseId/add-utilities',
+  isOwnOrAdmin,
+  catchErrors(doesHouseExist),
+  catchErrors(areUtilitiesValid),
+  catchErrors(addHouseUtilities)
 );
 export default houseRoutes;

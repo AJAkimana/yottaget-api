@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'location',
       foreignKey: 'locationId'
     });
-    House.hasMany(models.Utility, {
-      as: 'utilities'
+    House.belongsToMany(models.Utility, {
+      as: 'utilities',
+      through: 'house_utilities'
     });
     House.hasMany(models.Image, {
       as: 'images'
