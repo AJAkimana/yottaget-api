@@ -14,7 +14,8 @@ import {
   doesHouseExist,
   isHouseUpdateValid,
   areImagesValid,
-  areUtilitiesValid
+  areUtilitiesValid,
+  doesLocationExist
 } from '../../middlewares';
 
 const houseRoutes = Router();
@@ -46,5 +47,10 @@ houseRoutes.patch(
   catchErrors(doesHouseExist),
   catchErrors(areUtilitiesValid),
   catchErrors(addHouseUtilities)
+);
+houseRoutes.get(
+  '/locations/:locationId',
+  catchErrors(doesLocationExist),
+  catchErrors(getHouses)
 );
 export default houseRoutes;

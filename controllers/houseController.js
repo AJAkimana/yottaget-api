@@ -5,7 +5,7 @@ import {
   ConstantHelper,
   generateSlug
 } from '../helpers';
-import { House, Image, Utility, HouseUtility } from '../models';
+import { House, Image, HouseUtility } from '../models';
 
 const houseDb = new QueryHelper(House);
 const imageDb = new QueryHelper(Image);
@@ -19,14 +19,17 @@ export const createHouse = async (req, res) => {
 };
 
 export const getHouses = async (req, res) => {
-  const houses = await houseDb.findAll();
-  return serverResponse(res, 200, 'msg', houses);
+  const { locationId } = req.params;
+  const query = locationId ? { locationId } : null;
+  const sort = ['name', 'ASC'];
+  const houses = await houseDb.findAll(query, null, null, null, null, sort);
+  return serverResponse(res, 200, 'Success', houses);
 };
 
 export const getOneHouse = async (req, res) => {
   const { houseId: id } = req.params;
   const house = await houseDb.findOne({ id }, constHelper.houseIncludes());
-  return serverResponse(res, 200, 'msg', house);
+  return serverResponse(res, 200, 'Success', house);
 };
 
 export const updateHouse = async (req, res) => {

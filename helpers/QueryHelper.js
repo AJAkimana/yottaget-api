@@ -15,15 +15,16 @@ export class QueryHelper {
     include = null,
     attributes,
     offset = 0,
-    limit = 20
+    limit = 20,
+    orderBy = ['createdAt', 'ASC']
   ) {
     return this.model.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [orderBy],
       offset,
       limit,
       where: whereCondition,
       attributes,
-      logging: true,
+      logging: false,
       include
     });
   }
