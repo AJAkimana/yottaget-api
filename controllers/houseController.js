@@ -6,6 +6,7 @@ import {
   generateSlug
 } from '../helpers';
 import { House, Image, HouseUtility } from '../models';
+import { sendSms } from '../config/smsService';
 
 const houseDb = new QueryHelper(House);
 const imageDb = new QueryHelper(Image);
@@ -54,4 +55,13 @@ export const addHouseUtilities = async (req, res) => {
   await hUtilityDb.bulkCreate(houseUtilities);
   const msg = `${houseUtilities.length} utilities added`;
   return serverResponse(res, 201, msg);
+};
+
+export const bookHouse = async (req, res) => {
+  const { sender, receiver, message } = req.body;
+  const info = { sender, receiver, message };
+  sendSms(info, (error, response) => {
+    if (error) return serverResponse(res, 500, error);
+    return serverResponse(res, 200, response);
+  });
 };

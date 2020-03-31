@@ -5,7 +5,8 @@ import {
   getOneHouse,
   updateHouse,
   addHouseImages,
-  addHouseUtilities
+  addHouseUtilities,
+  bookHouse
 } from '../../controllers/houseController';
 import {
   catchErrors,
@@ -22,6 +23,11 @@ const houseRoutes = Router();
 
 houseRoutes.post('/', isOwnOrAdmin, isHouseValid, catchErrors(createHouse));
 houseRoutes.get('/', catchErrors(getHouses));
+houseRoutes.get(
+  '/locations/:locationId',
+  catchErrors(doesLocationExist),
+  catchErrors(getHouses)
+);
 houseRoutes.get(
   '/:houseId',
   catchErrors(doesHouseExist),
@@ -48,9 +54,9 @@ houseRoutes.patch(
   catchErrors(areUtilitiesValid),
   catchErrors(addHouseUtilities)
 );
-houseRoutes.get(
-  '/locations/:locationId',
-  catchErrors(doesLocationExist),
-  catchErrors(getHouses)
+houseRoutes.patch(
+  '/:houseId/book',
+  catchErrors(doesHouseExist),
+  catchErrors(bookHouse)
 );
 export default houseRoutes;
