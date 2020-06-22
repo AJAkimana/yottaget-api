@@ -1,16 +1,16 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const HouseUtility = sequelize.define(
     'HouseUtility',
     {
       houseId: DataTypes.INTEGER,
-      utilityId: DataTypes.INTEGER
+      utilityId: DataTypes.INTEGER,
     },
     {
-      tableName: 'house_utilities'
+      tableName: 'house_utilities',
     }
   );
-  HouseUtility.associate = function(models) {
+  HouseUtility.associate = function (models) {
     // associations can be defined here
   };
   return HouseUtility;

@@ -1,28 +1,29 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Location = sequelize.define(
     'Location',
     {
-      name: DataTypes.STRING
+      name: DataTypes.STRING,
     },
+    { tableName: 'locations' },
     {
       indexes: [
         {
           unique: true,
-          fields: ['name']
-        }
-      ]
+          fields: ['name'],
+        },
+      ],
     }
   );
-  Location.associate = function(models) {
+  Location.associate = function (models) {
     // associations can be defined here
     Location.hasMany(models.Utility, {
       as: 'utilities',
-      foreignKey: 'locationId'
+      foreignKey: 'locationId',
     });
     Location.hasMany(models.House, {
       as: 'houses',
-      foreignKey: 'locationId'
+      foreignKey: 'locationId',
     });
   };
   return Location;

@@ -1,24 +1,25 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Image = sequelize.define(
     'Image',
     {
-      link: DataTypes.STRING
+      link: DataTypes.STRING,
     },
+    { tableName: 'images' },
     {
       indexes: [
         {
           unique: true,
-          fields: ['link', 'house_id']
-        }
-      ]
+          fields: ['link', 'house_id'],
+        },
+      ],
     }
   );
-  Image.associate = function(models) {
+  Image.associate = function (models) {
     // associations can be defined here
     Image.belongsTo(models.House, {
       as: 'house',
-      foreignKey: 'houseId'
+      foreignKey: 'houseId',
     });
   };
   return Image;

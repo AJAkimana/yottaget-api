@@ -1,5 +1,5 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const House = sequelize.define(
     'House',
     {
@@ -8,26 +8,26 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.INTEGER,
       description: DataTypes.STRING,
       type: DataTypes.STRING,
-      status: DataTypes.STRING
+      status: DataTypes.STRING,
     },
-    {}
+    { tableName: 'houses' }
   );
-  House.associate = models => {
+  House.associate = (models) => {
     // associations can be defined here
     House.belongsTo(models.Location, {
       as: 'location',
-      foreignKey: 'locationId'
+      foreignKey: 'locationId',
     });
     House.belongsToMany(models.Utility, {
       as: 'utilities',
-      through: 'house_utilities'
+      through: 'house_utilities',
     });
     House.hasMany(models.Image, {
-      as: 'images'
+      as: 'images',
     });
     House.belongsTo(models.User, {
       as: 'landlord',
-      foreignKey: 'userId'
+      foreignKey: 'userId',
     });
   };
   return House;
