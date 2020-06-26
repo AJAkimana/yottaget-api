@@ -6,11 +6,12 @@ const constants = new ConstantHelper();
 export const userSignin = async (req, res, next) => {
   passport.authenticate('local.login', (error, user) => {
     if (error) return serverResponse(res, 401, error.message);
-    req.logIn(user, err => {
+    req.logIn(user, (err) => {
       if (err) return next(err);
 
       req.session.cookie.maxAge = constants.week;
       req.session.save();
+      delete user.password;
       return serverResponse(res, 200, `Welcome ${user.names}`, user);
     });
   })(req, req, next);
@@ -19,6 +20,7 @@ export const userSignUp = async (req, res, next) => {
   passport.authenticate('local.signup', (error, user) => {
     if (error) return serverResponse(res, 401, error.message);
     const errorMsg = `Thank you, ${user.names}, for registering`;
+    delete user.password;
     return serverResponse(res, 200, errorMsg, user);
   })(req, req, next);
 };
