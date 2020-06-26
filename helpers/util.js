@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import slugify from 'slugify';
 import uniqid from 'uniqid';
 
-export const hashPassword = password => {
+export const hashPassword = (password) => {
   const salt = bcrypt.genSaltSync(process.env.PASS_SALT);
   const hashPass = bcrypt.hashSync(password, salt);
   return hashPass;
@@ -10,7 +11,7 @@ export const hashPassword = password => {
 export const unHashPassword = (password, hashedPass) => {
   return bcrypt.compareSync(password, hashedPass);
 };
-export const generatJWT = userInfo => {
+export const generatJWT = (userInfo) => {
   const token = jwt.sign(userInfo, process.env.SECRET, { expiresIn: '1d' });
   return token;
 };
@@ -30,7 +31,7 @@ export const joiValidatorMsg = (res, result) => {
   return serverResponse(res, 400, errors[0]);
 };
 
-export const generateSlug = title => {
+export const generateSlug = (title) => {
   const uniqueId = uniqid.process();
   const slug = `${slugify(title, { lower: true })}-${uniqueId}`;
   return slug;

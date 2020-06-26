@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { serverResponse } from '../helpers';
 import { ConstantHelper } from '../helpers/ConstantHelper';
+import { generatJWT } from '../helpers/util';
 
 const constants = new ConstantHelper();
 export const userSignin = async (req, res, next) => {
@@ -8,10 +9,12 @@ export const userSignin = async (req, res, next) => {
     if (error) return serverResponse(res, 401, error.message);
     req.logIn(user, (err) => {
       if (err) return next(err);
+      delete user.password;
+      delete user.updatedAt;
 
+      user.token = generatJWT({ id: user.id });
       req.session.cookie.maxAge = constants.week;
       req.session.save();
-      delete user.password;
       return serverResponse(res, 200, `Welcome ${user.names}`, user);
     });
   })(req, req, next);

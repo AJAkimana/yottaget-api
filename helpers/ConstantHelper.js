@@ -7,11 +7,11 @@ export const msgs = {
   NOT_OWNER: 'This action is for owner',
   ADMIN_OR_OWNER: 'This action is for admin or owner',
   CRUD_ACTION: (item, action) => `${item} has successfully ${action}`,
-  NOT_FOUND: item => `${item} is not found`,
-  ROUTE_NOT_FOUND: 'Oops, you seem lost'
+  NOT_FOUND: (item) => `${item} is not found`,
+  ROUTE_NOT_FOUND: 'Oops, you seem lost',
 };
 export const localConstants = {
-  TOTAL_IMAGES: 3
+  TOTAL_IMAGES: 3,
 };
 export class ConstantHelper {
   constructor() {
@@ -24,15 +24,15 @@ export class ConstantHelper {
     const login = {
       email: Joi.string().email(),
       phone: Joi.string(),
-      email: Joi.string(),
-      password: Joi.string().required()
+      username: Joi.string(),
+      password: Joi.string().required(),
     };
     const signUp = {
       ...login,
       phone: Joi.string().required(),
       username: Joi.string().required(),
       a_level: Joi.number().required(),
-      names: Joi.string().required()
+      names: Joi.string().required(),
     };
     return action === 'login' ? login : signUp;
   }
@@ -42,43 +42,41 @@ export class ConstantHelper {
       price: Joi.number().required(),
       description: Joi.string().required(),
       locationId: Joi.number().required(),
-      userId: Joi.number().required()
+      userId: Joi.number().required(),
     };
     const { userId, ...withNoUserId } = newHouse;
     const generalUpdate = {
       status: Joi.string()
         .valid('Pending', 'Booked', 'Available', 'Canceled')
         .required(),
-      ...withNoUserId
+      ...withNoUserId,
     };
     if (actionType === 'new') return newHouse;
     if (actionType === 'genUpdate') return generalUpdate;
   }
   getImagesKeys() {
     const images = {
-      images: Joi.array()
-        .items(Joi.string().required())
-        .required(),
-      houseId: Joi.number()
+      images: Joi.array().items(Joi.string().required()).required(),
+      houseId: Joi.number(),
     };
     return images;
   }
   getUtilitiesKeys(actionType) {
     const utilities = {
-      utilities: Joi.array().items(Joi.number().required())
+      utilities: Joi.array().items(Joi.number().required()),
     };
     const newUtilities = {
       utilities: Joi.array().items({
         name: Joi.string().required(),
-        locationId: Joi.number().required()
-      })
+        locationId: Joi.number().required(),
+      }),
     };
     if (actionType === 'forHouse') return utilities;
     if (actionType === 'new') return newUtilities;
   }
   getLocationKeys(actionType) {
     const newLocation = {
-      name: Joi.string().required()
+      name: Joi.string().required(),
     };
     if (actionType === 'new') return newLocation;
   }
@@ -88,13 +86,13 @@ export class ConstantHelper {
         model: Utility,
         as: 'utilities',
         include: [{ model: Location, as: 'location', attributes: ['name'] }],
-        attributes: ['name']
+        attributes: ['name'],
       },
       {
         model: House,
         as: 'houses',
-        attributes: ['name', 'price', 'description']
-      }
+        attributes: ['name', 'price', 'description'],
+      },
     ];
   }
   houseIncludes() {
@@ -103,23 +101,23 @@ export class ConstantHelper {
         model: Utility,
         as: 'utilities',
         through: { attributes: [] },
-        attributes: ['name']
+        attributes: ['name'],
       },
       {
         model: Location,
         as: 'location',
-        attributes: ['name']
+        attributes: ['name'],
       },
       {
         model: User,
         as: 'landlord',
-        attributes: ['names']
+        attributes: ['names'],
       },
       {
         model: Image,
         as: 'images',
-        attributes: ['link']
-      }
+        attributes: ['link'],
+      },
     ];
   }
 }
