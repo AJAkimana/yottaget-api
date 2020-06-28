@@ -22,9 +22,9 @@ export const userSignin = async (req, res, next) => {
 export const userSignUp = async (req, res, next) => {
   passport.authenticate('local.signup', (error, user) => {
     if (error) return serverResponse(res, 401, error.message);
-    const errorMsg = `Thank you, ${user.names}, for registering`;
+    const successMsg = `Thank you, ${user.names}, for registering`;
     delete user.password;
-    return serverResponse(res, 200, errorMsg, user);
+    return serverResponse(res, 200, successMsg, user);
   })(req, req, next);
 };
 export const logoutUser = (req, res) => {

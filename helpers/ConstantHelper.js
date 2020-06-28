@@ -22,8 +22,8 @@ export class ConstantHelper {
   static serverUploadError = 'Unknown upload';
   getAuthKeys(action) {
     const login = {
-      email: Joi.string().email(),
       phone: Joi.string(),
+      email: Joi.string().email(),
       username: Joi.string(),
       password: Joi.string().required(),
     };
