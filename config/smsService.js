@@ -2,9 +2,13 @@ import Nexmo from 'nexmo';
 
 const nexmo = new Nexmo({
   apiKey: process.env.SMS_API_KEY,
-  apiSecret: process.env.SMS_SECRET_KEY
+  apiSecret: process.env.SMS_SECRET_KEY,
 });
-
+/**
+ *
+ * @param {object} info Message object {origin,destinatin,body}
+ * @param {function} sendCallBack Callback function
+ */
 export const sendSms = (info, sendCallBack) => {
   const { sender, receiver, message } = info;
   nexmo.message.sendSms(sender, receiver, message, (error, response) => {

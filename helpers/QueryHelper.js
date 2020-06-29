@@ -2,14 +2,29 @@ export class QueryHelper {
   constructor(model) {
     this.model = model;
   }
+  /**
+   *
+   * @param {object} whereCondition
+   * @param {array} include
+   * @param {array} attributes
+   */
   async findOne(whereCondition = {}, include = null, attributes) {
     return this.model.findOne({
       where: whereCondition,
       logging: false,
       include,
-      attributes
+      attributes,
     });
   }
+  /**
+   *
+   * @param {object} whereCondition
+   * @param {array} include
+   * @param {array} attributes
+   * @param {number} offset
+   * @param {number} limit
+   * @param {array} orderBy
+   */
   async findAll(
     whereCondition,
     include = null,
@@ -25,7 +40,7 @@ export class QueryHelper {
       where: whereCondition,
       attributes,
       logging: false,
-      include
+      include,
     });
   }
   async create(data) {
@@ -40,7 +55,7 @@ export class QueryHelper {
   async delete(whereCondition) {
     return this.model.destroy({
       where: whereCondition,
-      logging: false
+      logging: false,
     });
   }
   async findOrCreate(whereCondition, defaults) {

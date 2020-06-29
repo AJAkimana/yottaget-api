@@ -7,6 +7,7 @@ export default (sequelize, DataTypes) => {
       slug: DataTypes.STRING,
       price: DataTypes.INTEGER,
       description: DataTypes.STRING,
+      coverImage: DataTypes.STRING,
       type: DataTypes.STRING,
       status: DataTypes.STRING,
     },

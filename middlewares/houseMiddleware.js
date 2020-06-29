@@ -4,7 +4,7 @@ import {
   QueryHelper,
   msgs,
   serverResponse,
-  localConstants
+  localConstants,
 } from '../helpers';
 import { House, Image, Utility } from '../models';
 
@@ -40,18 +40,19 @@ export const areImagesValid = async (req, res, next) => {
   if (errorBody.error) return joiValidatorMsg(res, errorBody);
   const { images } = req.body;
   const houseImages = await imageDb.findAll({ houseId }, null, ['link']);
-  houseImages.map(img => img.link);
-  const allImages = [images, ...houseImages];
+
+  const imageLinks = houseImages.map((img) => img.link);
+  const allImages = [...images, ...imageLinks];
   req.body.theImages = [];
-  allImages.map(image => {
-    if (!houseImages.includes(image)) {
+
+  allImages.map((image) => {
+    if (!imageLinks.includes(image)) {
       req.body.theImages.push({ link: image, houseId });
     }
   });
   // const  totalImages = allImages.length - localConstants.TOTAL_IMAGES;
-  const remaingImages =
-    images.length + houseImages.length - localConstants.TOTAL_IMAGES;
-  if (remaingImages > 0) {
+  const remaingImages = allImages.length - localConstants.TOTAL_IMAGES;
+  if (remaingImages > req.body.theImages.length) {
     const msg = `Too many images. Please delete ${remaingImages}`;
     return serverResponse(res, 400, msg);
   }
@@ -66,7 +67,7 @@ export const areUtilitiesValid = async (req, res, next) => {
   if (errorBody.error) return joiValidatorMsg(res, errorBody);
   req.body.houseUtilities = [];
   await Promise.all(
-    utilities.map(async util => {
+    utilities.map(async (util) => {
       const utility = await utilityDb.findOne({ id: util });
       if (utility) {
         req.body.houseUtilities.push({ houseId, utilityId: util });

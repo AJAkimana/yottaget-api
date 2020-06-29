@@ -8,30 +8,33 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
         },
         name: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
         },
         slug: {
           allowNull: false,
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
         },
         price: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+        },
+        coverImage: {
+          type: Sequelize.STRING,
         },
         description: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
         },
         type: {
           type: Sequelize.ENUM,
           allowNull: false,
-          values: ['house']
+          values: ['house'],
         },
         status: {
           type: Sequelize.ENUM,
           allowNull: false,
-          values: ['Pending', 'Booked', 'Available', 'Canceled']
+          values: ['Pending', 'Booked', 'Available', 'Canceled'],
         },
         locationId: {
           type: Sequelize.INTEGER,
@@ -40,8 +43,8 @@ module.exports = {
           references: {
             model: 'locations',
             key: 'id',
-            as: 'locationId'
-          }
+            as: 'locationId',
+          },
         },
         userId: {
           type: Sequelize.INTEGER,
@@ -50,29 +53,29 @@ module.exports = {
           references: {
             model: 'users',
             key: 'id',
-            as: 'userId'
-          }
+            as: 'userId',
+          },
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
-        }
+          type: Sequelize.DATE,
+        },
       },
       {
         uniqueKeys: {
           unique_tag: {
             customIndex: true,
-            fields: ['name', 'locationId', 'userId']
-          }
-        }
+            fields: ['name', 'locationId', 'userId'],
+          },
+        },
       }
     );
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('houses');
-  }
+  },
 };

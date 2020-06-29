@@ -15,6 +15,13 @@ export const generatJWT = (userInfo) => {
   const token = jwt.sign(userInfo, process.env.SECRET, { expiresIn: '1d' });
   return token;
 };
+/**
+ *
+ * @param {Response} res Server response
+ * @param {Number} statusCode Status code
+ * @param {string} message Response message
+ * @param {*} data Response data
+ */
 export const serverResponse = (res, statusCode, message, data) => {
   const messageType = statusCode >= 400 ? 'error' : 'message';
   return res

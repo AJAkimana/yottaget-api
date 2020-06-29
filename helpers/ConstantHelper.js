@@ -41,6 +41,7 @@ export class ConstantHelper {
       name: Joi.string().required(),
       price: Joi.number().required(),
       description: Joi.string().required(),
+      coverImage: Joi.string().required(),
       locationId: Joi.number().required(),
       userId: Joi.number().required(),
     };
@@ -55,11 +56,10 @@ export class ConstantHelper {
     if (actionType === 'genUpdate') return generalUpdate;
   }
   getImagesKeys() {
-    const images = {
+    return {
       images: Joi.array().items(Joi.string().required()).required(),
       houseId: Joi.number(),
     };
-    return images;
   }
   getUtilitiesKeys(actionType) {
     const utilities = {
