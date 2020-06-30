@@ -3,7 +3,8 @@ import {
   QueryHelper,
   msgs,
   ConstantHelper,
-  generateSlug
+  generateSlug,
+  paginator,
 } from '../helpers';
 import { House, Image, HouseUtility } from '../models';
 import { sendSms } from '../config/smsService';
@@ -20,10 +21,19 @@ export const createHouse = async (req, res) => {
 };
 
 export const getHouses = async (req, res) => {
-  const { locationId } = req.params;
+  const { locationId } = req.query;
+  const { limit, offset } = paginator(req.query);
   const query = locationId ? { locationId } : null;
   const sort = ['name', 'ASC'];
-  const houses = await houseDb.findAll(query, null, null, null, null, sort);
+  const includes = constHelper.houseIncludes();
+  const houses = await houseDb.findAll(
+    query,
+    includes,
+    null,
+    offset,
+    limit,
+    sort
+  );
   return serverResponse(res, 200, 'Success', houses);
 };
 

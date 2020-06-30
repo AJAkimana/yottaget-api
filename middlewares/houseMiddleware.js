@@ -25,10 +25,15 @@ export const isHouseUpdateValid = (req, res, next) => {
 };
 export const doesHouseExist = async (req, res, next) => {
   let houseDb = new QueryHelper(House);
-  if (req.params.houseId) {
-    const { houseId: id } = req.params;
-    const house = await houseDb.findOne({ id });
-    if (house) return next();
+  if (req.params.houseIdOrSlug) {
+    const idOrSlug = req.params.houseIdOrSlug;
+    const condition = isNaN(idOrSlug) ? { slug: idOrSlug } : { id: idOrSlug };
+
+    const house = await houseDb.findOne(condition);
+    if (house) {
+      req.params.houseId = house.id;
+      return next();
+    }
   }
   return serverResponse(res, 404, msgs.NOT_FOUND('House'));
 };

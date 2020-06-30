@@ -95,8 +95,8 @@ export class ConstantHelper {
       },
     ];
   }
-  houseIncludes() {
-    return [
+  houseIncludes(type = '') {
+    const baseInclude = [
       {
         model: Utility,
         as: 'utilities',
@@ -109,6 +109,13 @@ export class ConstantHelper {
         attributes: ['name'],
       },
       {
+        model: Image,
+        as: 'images',
+        attributes: ['link'],
+      },
+    ];
+    const detailedInclude = [
+      {
         model: User,
         as: 'landlord',
         attributes: ['names'],
@@ -119,5 +126,7 @@ export class ConstantHelper {
         attributes: ['link'],
       },
     ];
+
+    return type === '' ? baseInclude : [...baseInclude, ...detailedInclude];
   }
 }

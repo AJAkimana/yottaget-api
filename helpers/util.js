@@ -43,3 +43,8 @@ export const generateSlug = (title) => {
   const slug = `${slugify(title, { lower: true })}-${uniqueId}`;
   return slug;
 };
+export const paginator = ({ page, pageSize }) => {
+  const offset = Number((page - 1) * pageSize) || 0;
+  const limit = Number(pageSize) || 20;
+  return { offset, limit };
+};
