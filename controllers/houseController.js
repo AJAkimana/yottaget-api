@@ -6,13 +6,15 @@ import {
   generateSlug,
   paginator,
 } from '../helpers';
-import { House, Image, HouseUtility } from '../models';
+import { House, Image, HouseUtility, Sequelize, Location } from '../models';
 import { sendSms } from '../config/smsService';
 
 const houseDb = new QueryHelper(House);
 const imageDb = new QueryHelper(Image);
 const hUtilityDb = new QueryHelper(HouseUtility);
+const locationDb = new QueryHelper(Location);
 const constHelper = new ConstantHelper();
+const { Op } = Sequelize;
 export const createHouse = async (req, res) => {
   req.body.slug = generateSlug(req.body.name);
   const newHouse = await houseDb.create(req.body);
@@ -74,4 +76,37 @@ export const bookHouse = async (req, res) => {
     if (error) return serverResponse(res, 500, error);
     return serverResponse(res, 200, response);
   });
+};
+/**
+ * @param {*} req Express request
+ * @param {*} res Express response
+ */
+export const searchInfo = async (req, res) => {
+  const condition = {
+    [Op.substring]: req.query.searchKey,
+  };
+  const houseConditions = {
+    description: condition,
+  };
+  const locationConditions = {
+    name: condition,
+  };
+  const houses = await houseDb.findAll(
+    houseConditions,
+    null,
+    ['id', 'description', 'slug'],
+    null,
+    null,
+    [['description', 'ASC']]
+  );
+  const locations = await locationDb.findAll(
+    locationConditions,
+    null,
+    ['id', 'name', 'slug'],
+    null,
+    null,
+    [['name', 'ASC']]
+  );
+  const searched = { houses, locations };
+  return serverResponse(res, 200, 'Success', searched);
 };

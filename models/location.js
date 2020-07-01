@@ -4,6 +4,7 @@ export default (sequelize, DataTypes) => {
     'Location',
     {
       name: DataTypes.STRING,
+      slug: DataTypes.STRING,
     },
     { tableName: 'locations' },
     {
