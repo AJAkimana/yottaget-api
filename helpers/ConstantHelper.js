@@ -129,4 +129,13 @@ export class ConstantHelper {
 
     return type === '' ? baseInclude : [...baseInclude, ...detailedInclude];
   }
+  houseLocationIncludes() {
+    return [
+      {
+        model: Location,
+        as: 'location',
+        attributes: ['name'],
+      },
+    ];
+  }
 }

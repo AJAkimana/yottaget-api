@@ -93,8 +93,8 @@ export const searchInfo = async (req, res) => {
   };
   const houses = await houseDb.findAll(
     houseConditions,
-    null,
-    ['id', 'description', 'slug'],
+    constHelper.houseLocationIncludes(),
+    ['id', 'name', 'description', 'slug'],
     null,
     null,
     [['description', 'ASC']]
