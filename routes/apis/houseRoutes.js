@@ -16,18 +16,13 @@ import {
   isHouseUpdateValid,
   areImagesValid,
   areUtilitiesValid,
-  doesLocationExist,
+  getQueryLocation,
 } from '../../middlewares';
 
 const houseRoutes = Router();
 
 houseRoutes.post('/', isOwnOrAdmin, isHouseValid, catchErrors(createHouse));
-houseRoutes.get('/', catchErrors(getHouses));
-houseRoutes.get(
-  '/locations/:locationId',
-  catchErrors(doesLocationExist),
-  catchErrors(getHouses)
-);
+houseRoutes.get('/', catchErrors(getQueryLocation), catchErrors(getHouses));
 houseRoutes.get(
   '/:houseIdOrSlug',
   catchErrors(doesHouseExist),

@@ -23,11 +23,12 @@ export const createHouse = async (req, res) => {
 };
 
 export const getHouses = async (req, res) => {
-  const { locationId } = req.query;
+  const { locationId } = req.body;
   const { limit, offset } = paginator(req.query);
-  const query = locationId ? { locationId } : null;
+  const query = req.query.area ? { locationId } : null;
   const sort = ['name', 'ASC'];
   const includes = constHelper.houseIncludes();
+  console.log('Query======>', req.body.locationId);
   const houses = await houseDb.findAll(
     query,
     includes,

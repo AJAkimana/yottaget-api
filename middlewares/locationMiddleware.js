@@ -3,7 +3,7 @@ import {
   joiValidatorMsg,
   QueryHelper,
   serverResponse,
-  msgs
+  msgs,
 } from '../helpers';
 import { Location } from '../models';
 
@@ -21,4 +21,16 @@ export const doesLocationExist = async (req, res, next) => {
     if (location) return next();
   }
   return serverResponse(res, 404, msgs.NOT_FOUND('Location'));
+};
+export const getQueryLocation = async (req, res, next) => {
+  const { area: name } = req.query;
+  if (req.query.area) {
+    const location = await locationDb.findOne({ name });
+    if (location) {
+      req.body.locationId = location.id;
+      return next();
+    }
+  }
+  req.body.locationId = null;
+  return next();
 };
