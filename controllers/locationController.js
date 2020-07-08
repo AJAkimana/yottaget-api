@@ -25,7 +25,7 @@ export const getLocations = async (req, res) => {
   const locations = await locationDb.findAll(
     whereConditions,
     null,
-    ['id', 'name'],
+    ['id', 'name', 'slug'],
     null,
     null,
     ['name', 'ASC']

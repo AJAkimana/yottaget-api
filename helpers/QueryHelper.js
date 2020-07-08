@@ -1,4 +1,11 @@
+/**
+ * @class QueryHelper
+ */
 export class QueryHelper {
+  /**
+   *
+   * @param {Modal} model
+   */
   constructor(model) {
     this.model = model;
   }

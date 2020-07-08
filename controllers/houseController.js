@@ -28,7 +28,6 @@ export const getHouses = async (req, res) => {
   const query = req.query.area ? { locationId } : null;
   const sort = ['name', 'ASC'];
   const includes = constHelper.houseIncludes();
-  console.log('Query======>', req.body.locationId);
   const houses = await houseDb.findAll(
     query,
     includes,

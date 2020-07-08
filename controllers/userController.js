@@ -1,9 +1,12 @@
 import passport from 'passport';
-import { serverResponse } from '../helpers';
+import { serverResponse, QueryHelper } from '../helpers';
 import { ConstantHelper } from '../helpers/ConstantHelper';
 import { generatJWT } from '../helpers/util';
+import { User, Sequelize } from '../models';
 
 const constants = new ConstantHelper();
+const userDb = new QueryHelper(User);
+const { Op } = Sequelize;
 export const userSignin = async (req, res, next) => {
   passport.authenticate('local.login', (error, user) => {
     if (error) return serverResponse(res, 401, error.message);
@@ -31,4 +34,27 @@ export const logoutUser = (req, res) => {
   req.session.destroy();
   req.logout();
   res.status(200).json({ status: 200, message: 'Successfully logged out' });
+};
+export const getUsers = async (req, res) => {
+  const { type } = req.query;
+  let query = { a_level: 3 };
+  const isSuperAdmin = Number(req.user.a_level) === 1;
+  switch (type) {
+    case 'landload':
+      query = { a_level: 2 };
+      break;
+    case 'all':
+      query = { a_level: { [Op.gte]: 2 } };
+      break;
+    default:
+      break;
+  }
+  let attributes = isSuperAdmin
+    ? ['id', 'names', 'username', 'email', 'phone', 'a_level', 'createdAt']
+    : ['names'];
+  const users = await userDb.findAll(query, null, attributes, null, null, [
+    'names',
+    'ASC',
+  ]);
+  return serverResponse(res, 200, 'Success', users);
 };
