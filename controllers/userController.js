@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { serverResponse, QueryHelper } from '../helpers';
 import { ConstantHelper } from '../helpers/ConstantHelper';
-import { generatJWT } from '../helpers/util';
+import { generatJWT, hashPassword } from '../helpers/util';
 import { User, Sequelize } from '../models';
 
 const constants = new ConstantHelper();
@@ -57,4 +57,9 @@ export const getUsers = async (req, res) => {
     'ASC',
   ]);
   return serverResponse(res, 200, 'Success', users);
+};
+export const createNewUser = async (req, res) => {
+  req.body.password = hashPassword(req.body.password);
+  const newUser = await userDb.create(req.body);
+  return serverResponse(res, 200, 'Created', newUser);
 };
