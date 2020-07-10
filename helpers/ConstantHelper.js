@@ -36,6 +36,21 @@ export class ConstantHelper {
     };
     return action === 'login' ? login : signUp;
   }
+  getUserUpdateKeys(action) {
+    const thePassword = {
+      isPassword: Joi.boolean().required(),
+      current: Joi.string().required(),
+      password: Joi.string().required(),
+    };
+    const userInfo = {
+      isPassword: Joi.boolean().required(),
+      phone: Joi.string().required(),
+      email: Joi.string().email(),
+      username: Joi.string(),
+      names: Joi.string().required(),
+    };
+    return action === 'updatePass' ? thePassword : userInfo;
+  }
   getHouseKeys(actionType) {
     const newHouse = {
       name: Joi.string().required(),

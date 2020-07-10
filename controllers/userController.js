@@ -63,3 +63,11 @@ export const createNewUser = async (req, res) => {
   const newUser = await userDb.create(req.body);
   return serverResponse(res, 200, 'Created', newUser);
 };
+export const updateUser = async (req, res) => {
+  const { isPassword, userId: id, password } = req.body;
+  const updatingBody = isPassword
+    ? { password: hashPassword(password) }
+    : req.body;
+  await userDb.update(updatingBody, { id });
+  return serverResponse(res, 200, 'Updated successfully');
+};

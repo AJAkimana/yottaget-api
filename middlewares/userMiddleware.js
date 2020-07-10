@@ -3,6 +3,7 @@ import {
   ValidatorHelper,
   joiValidatorMsg,
   QueryHelper,
+  unHashPassword,
 } from '../helpers';
 import { User, Sequelize } from '../models';
 
@@ -45,5 +46,18 @@ export const isUserValid = async (req, res, next) => {
   if (isExit) {
     return serverResponse(res, 400, 'User with this information exists');
   }
+  return next();
+};
+export const isUpdateUserValid = (req, res, next) => {
+  const { isPassword, current } = req.body;
+  let validator = new ValidatorHelper(req.body);
+  const validAction = isPassword ? 'updatePass' : 'updateUserInfo';
+  const errorBody = validator.validateInput('updateUser', validAction);
+  if (errorBody.error) return joiValidatorMsg(res, errorBody);
+  const currentUser = req.user.toJSON();
+  if (isPassword && !unHashPassword(current, currentUser.password)) {
+    return serverResponse(res, 400, 'Oops, passwords do not match');
+  }
+  req.body.userId = isPassword ? currentUser.id : req.body.userId;
   return next();
 };

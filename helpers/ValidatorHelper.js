@@ -13,6 +13,9 @@ export class ValidatorHelper extends ConstantHelper {
       case 'user':
         validateKeys = Joi.object().keys(this.getAuthKeys(action));
         break;
+      case 'updateUser':
+        validateKeys = Joi.object().keys(this.getUserUpdateKeys(action));
+        break;
       case 'house':
         validateKeys = Joi.object().keys(this.getHouseKeys(action));
         break;
