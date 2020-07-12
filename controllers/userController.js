@@ -2,10 +2,12 @@ import passport from 'passport';
 import { serverResponse, QueryHelper } from '../helpers';
 import { ConstantHelper } from '../helpers/ConstantHelper';
 import { generatJWT, hashPassword } from '../helpers/util';
-import { User, Sequelize } from '../models';
+import { User, House, Sequelize, Payment } from '../models';
 
 const constants = new ConstantHelper();
 const userDb = new QueryHelper(User);
+const houseDb = new QueryHelper(House);
+const paymentDb = new QueryHelper(Payment);
 const { Op } = Sequelize;
 export const userSignin = async (req, res, next) => {
   passport.authenticate('local.login', (error, user) => {
@@ -70,4 +72,36 @@ export const updateUser = async (req, res) => {
     : req.body;
   await userDb.update(updatingBody, { id });
   return serverResponse(res, 200, 'Updated successfully');
+};
+export const getAdminCounts = async (req, res) => {
+  const counts = [];
+
+  const housesConditions =
+    parseInt(req.user.a_level) !== 2 ? { userId: req.user.id } : null;
+  const myTenats =
+    parseInt(req.user.a_level) !== 2
+      ? null
+      : await houseDb.count({
+          userId: req.user.id,
+          status: 'booked',
+        });
+  const landLoads =
+    parseInt(req.user.a_level) === 2
+      ? null
+      : await userDb.count({ a_level: 2 });
+  const tenants =
+    parseInt(req.user.a_level) === 2
+      ? null
+      : await userDb.count({ a_level: 3 });
+  const houses = await houseDb.count(housesConditions);
+  const paid =
+    parseInt(req.user.a_level) !== 2 ? await paymentDb.count() : myTenats;
+  counts.push(
+    { type: 'Tenants', count: tenants },
+    { type: 'My Tenants', count: myTenats },
+    { type: 'Landlord', count: landLoads },
+    { type: 'Houses', count: houses },
+    { type: 'Paid', count: paid }
+  );
+  return serverResponse(res, 200, 'Success', counts);
 };

@@ -133,16 +133,11 @@ export class ConstantHelper {
       {
         model: User,
         as: 'landlord',
-        attributes: ['names'],
-      },
-      {
-        model: Image,
-        as: 'images',
-        attributes: ['link'],
+        attributes: ['names', 'phone'],
       },
     ];
 
-    return type === '' ? baseInclude : [...baseInclude, ...detailedInclude];
+    return type === 'all' ? [...baseInclude, ...detailedInclude] : baseInclude;
   }
   houseLocationIncludes() {
     return [

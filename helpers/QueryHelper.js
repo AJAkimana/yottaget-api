@@ -68,7 +68,7 @@ export class QueryHelper {
   async findOrCreate(whereCondition, defaults) {
     return this.model.findOrCreate({ where: whereCondition, defaults });
   }
-  async count(whereCondition) {
+  async count(whereCondition = {}) {
     return this.model.count({ where: whereCondition });
   }
 }

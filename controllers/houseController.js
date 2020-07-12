@@ -25,17 +25,19 @@ export const createHouse = async (req, res) => {
 export const getHouses = async (req, res) => {
   const { locationId } = req.body;
   const { limit, offset } = paginator(req.query);
-  const query = req.query.area ? { locationId } : null;
-  const sort = ['name', 'ASC'];
-  const includes = constHelper.houseIncludes();
-  const houses = await houseDb.findAll(
-    query,
-    includes,
-    null,
-    offset,
-    limit,
-    sort
-  );
+  let query = req.query.area ? { locationId } : null;
+  let includeType = '';
+  if (req.query.forAdmin && req.isAuthenticated()) {
+    if (parseInt(req.user.a_level) === 2) {
+      query = { ...query, userId: req.user.id };
+    }
+    if (parseInt(req.user.a_level) < 3) includeType = 'all';
+  }
+  const includes = constHelper.houseIncludes(includeType);
+  const houses = await houseDb.findAll(query, includes, null, offset, limit, [
+    'name',
+    'ASC',
+  ]);
   return serverResponse(res, 200, 'Success', houses);
 };
 

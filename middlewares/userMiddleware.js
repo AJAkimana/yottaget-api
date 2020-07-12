@@ -58,6 +58,6 @@ export const isUpdateUserValid = (req, res, next) => {
   if (isPassword && !unHashPassword(current, currentUser.password)) {
     return serverResponse(res, 400, 'Oops, passwords do not match');
   }
-  req.body.userId = isPassword ? currentUser.id : req.body.userId;
+  req.body.userId = currentUser.id;
   return next();
 };
