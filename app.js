@@ -25,7 +25,7 @@ const redisSessionStore = new RedisStore({
   port: process.env.REDIS_PORT,
   prefix: process.env.REDIS_PREFIX,
   name: process.env.REDIS_NAME,
-  client: redisClient
+  client: redisClient,
 });
 const port = process.env.PORT || 3000;
 /**
@@ -56,10 +56,10 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: true,
-      secure: false,
-      maxAge: 24 * constants.hour
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * constants.hour,
     },
-    store: redisSessionStore
+    store: redisSessionStore,
   })
 );
 /**

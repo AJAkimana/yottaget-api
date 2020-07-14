@@ -77,7 +77,7 @@ export const getAdminCounts = async (req, res) => {
   const counts = [];
 
   const housesConditions =
-    parseInt(req.user.a_level) !== 2 ? { userId: req.user.id } : null;
+    parseInt(req.user.a_level) === 2 ? { userId: req.user.id } : null;
   const myTenats =
     parseInt(req.user.a_level) !== 2
       ? null
@@ -97,11 +97,16 @@ export const getAdminCounts = async (req, res) => {
   const paid =
     parseInt(req.user.a_level) !== 2 ? await paymentDb.count() : myTenats;
   counts.push(
-    { type: 'Tenants', count: tenants },
-    { type: 'My Tenants', count: myTenats },
-    { type: 'Landlord', count: landLoads },
-    { type: 'Houses', count: houses },
-    { type: 'Paid', count: paid }
+    { type: 'user', label: 'Tenants', count: tenants },
+    { type: 'user', label: 'My Tenants', count: myTenats },
+    { type: 'user', label: 'Landlord', count: landLoads },
+    { type: 'house', label: 'Houses', count: houses },
+    { type: 'money', label: 'Paid', count: paid }
   );
   return serverResponse(res, 200, 'Success', counts);
+};
+export const forgetPassword = async (req, res) => {
+  const { password, userId: id } = req.body;
+  await userDb.update({ password }, { id });
+  return serverResponse(res, 200, 'Password changed successfully');
 };

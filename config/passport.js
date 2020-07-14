@@ -1,6 +1,6 @@
 import passportLocal from 'passport-local';
 import { User } from '../models';
-import { unHashPassword, hashPassword } from '../helpers';
+import { unHashPassword, hashPassword, allowedLevels } from '../helpers';
 import { Op } from 'sequelize';
 
 const LocalStrategy = passportLocal.Strategy;
@@ -61,7 +61,7 @@ export const localPassport = (passport) => {
         const username = req.body.username.trim();
         const names = req.body.names.trim();
         const a_level = Number(req.body.a_level);
-        if (a_level != 2 || a_level != 3) {
+        if (!allowedLevels.includes(a_level)) {
           return done({ message: 'You are not allowed to create account' });
         }
         const userPhoneParams = [{ username }, { phone }];

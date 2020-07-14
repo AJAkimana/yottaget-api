@@ -18,6 +18,13 @@ const { Op } = Sequelize;
 export const createHouse = async (req, res) => {
   req.body.slug = generateSlug(req.body.name);
   const newHouse = await houseDb.create(req.body);
+  if (req.body.utilities.length) {
+    const utilities = req.body.utilities.map((util) => ({
+      houseId: newHouse.id,
+      utilityId: util,
+    }));
+    await hUtilityDb.bulkCreate(utilities);
+  }
   const msg = msgs.CRUD_ACTION('House', 'created');
   return serverResponse(res, 200, msg, newHouse);
 };
@@ -33,11 +40,14 @@ export const getHouses = async (req, res) => {
     }
     if (parseInt(req.user.a_level) < 3) includeType = 'all';
   }
+
   const includes = constHelper.houseIncludes(includeType);
-  const houses = await houseDb.findAll(query, includes, null, offset, limit, [
+  let houses = await houseDb.findAll(query, includes, null, offset, limit, [
     'name',
     'ASC',
   ]);
+  if (!req.query.forAdmin)
+    houses = houses.filter((house) => house.images.length >= 3);
   return serverResponse(res, 200, 'Success', houses);
 };
 
@@ -93,9 +103,9 @@ export const searchInfo = async (req, res) => {
   const locationConditions = {
     name: condition,
   };
-  const houses = await houseDb.findAll(
+  let houses = await houseDb.findAll(
     houseConditions,
-    constHelper.houseLocationIncludes(),
+    constHelper.houseIncludes(''),
     ['id', 'name', 'description', 'slug'],
     null,
     null,
@@ -109,6 +119,7 @@ export const searchInfo = async (req, res) => {
     null,
     [['name', 'ASC']]
   );
+  houses = houses.filter((house) => house.images.length >= 3);
   const searched = { houses, locations };
   return serverResponse(res, 200, 'Success', searched);
 };

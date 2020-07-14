@@ -7,6 +7,8 @@ import {
   isUserValid,
   isUpdateUserValid,
   isOwnOrAdmin,
+  isPasswordValid,
+  isAdmin,
 } from '../../middlewares';
 import {
   userSignin,
@@ -16,14 +18,15 @@ import {
   createNewUser,
   updateUser,
   getAdminCounts,
+  forgetPassword,
 } from '../../controllers/userController';
 
 const userRoutes = Router();
 
-userRoutes.get('/', isAuthanticated, catchErrors(getUsers));
+userRoutes.get('/', isAdmin, catchErrors(getUsers));
 userRoutes.post(
   '/',
-  isAuthanticated,
+  isAdmin,
   catchErrors(isUserValid),
   catchErrors(createNewUser)
 );
@@ -36,6 +39,11 @@ userRoutes.patch(
 userRoutes.get('/dashboard', isOwnOrAdmin, catchErrors(getAdminCounts));
 userRoutes.post('/login', isLoginInfoValid, catchErrors(userSignin));
 userRoutes.post('/signup', isSignUpInfoValid, catchErrors(userSignUp));
+userRoutes.post(
+  '/forget-password',
+  catchErrors(isPasswordValid),
+  catchErrors(forgetPassword)
+);
 userRoutes.use('/logout', logoutUser);
 
 export default userRoutes;

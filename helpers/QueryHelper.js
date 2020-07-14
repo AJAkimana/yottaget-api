@@ -59,16 +59,20 @@ export class QueryHelper {
   async update(data, whereCondition = {}) {
     return this.model.update(data, { where: whereCondition, logging: false });
   }
-  async delete(whereCondition) {
+  async delete(whereCondition = {}) {
     return this.model.destroy({
       where: whereCondition,
       logging: false,
     });
   }
-  async findOrCreate(whereCondition, defaults) {
-    return this.model.findOrCreate({ where: whereCondition, defaults });
+  async findOrCreate(whereCondition = {}, defaults) {
+    return this.model.findOrCreate({
+      where: whereCondition,
+      defaults,
+      logging: false,
+    });
   }
   async count(whereCondition = {}) {
-    return this.model.count({ where: whereCondition });
+    return this.model.count({ where: whereCondition, logging: false });
   }
 }

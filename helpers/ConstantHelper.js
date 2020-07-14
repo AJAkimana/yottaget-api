@@ -13,6 +13,7 @@ export const msgs = {
 export const localConstants = {
   TOTAL_IMAGES: 3,
 };
+export const allowedLevels = [2, 3];
 export class ConstantHelper {
   constructor() {
     this.hour = 3600000;
@@ -53,12 +54,13 @@ export class ConstantHelper {
   }
   getHouseKeys(actionType) {
     const newHouse = {
-      name: Joi.string().required(),
-      price: Joi.number().required(),
       description: Joi.string().required(),
+      price: Joi.number().required(),
       coverImage: Joi.string().required(),
+      name: Joi.string().required(),
       locationId: Joi.number().required(),
       userId: Joi.number().required(),
+      utilities: Joi.array().required(),
     };
     const { userId, ...withNoUserId } = newHouse;
     const generalUpdate = {
