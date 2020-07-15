@@ -9,7 +9,7 @@ export const up = (queryInterface) => {
         names: 'Admin user',
         username: 'adminuser',
         email: 'adminuser@email.com',
-        phone: '0783543016',
+        phone: '0781234567',
         password: hashPassword('MyPassword'),
         a_level: 1,
         createdAt: new Date(),
@@ -18,7 +18,7 @@ export const up = (queryInterface) => {
       {
         names: 'Landload user',
         username: 'landload',
-        phone: '0728533016',
+        phone: '0721234567',
         password: hashPassword('MyPassword'),
         a_level: 2,
         createdAt: new Date(),
@@ -27,7 +27,7 @@ export const up = (queryInterface) => {
       {
         names: 'Tenant user',
         username: 'tenant',
-        phone: '0738533018',
+        phone: '0731234567',
         password: hashPassword('MyPassword'),
         a_level: 3,
         createdAt: new Date(),

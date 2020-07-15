@@ -45,6 +45,7 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(capture());
 app.set('trust proxy', true);
+app.disable('x-powered-by');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(
@@ -58,6 +59,7 @@ app.use(
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * constants.hour,
+      domain: 'yottaget.herokuapp.com',
     },
     store: redisSessionStore,
   })
